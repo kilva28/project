@@ -7,6 +7,9 @@ win_size = 600
 window = pygame.display.set_mode((win_size,win_size))
 clock = pygame.time.Clock()
 
+difficult = 3
+
+pygame.display.set_caption('Арканоид')
 game_over = False
 
 class Area():
@@ -41,18 +44,27 @@ class Label(Area):
 platform_x = 240
 platform_y = 500
 
-speed_x = speed_y = 6
-
 Move_left = Move_right = False
 x1 = 0
-x2 = win_size
+x2 = win_size-100
+
+if difficult == 1:
+    speed_x = speed_y = 5
+    PlatformSpeed = 5
+if difficult == 2:
+    speed_x = speed_y = 7
+    PlatformSpeed = 6
+if difficult == 3:
+    speed_x = speed_y = 10
+    PlatformSpeed = 7
+if difficult == 4:
+    speed_x = speed_y = 13
+    PlatformSpeed = 9
 
 monster_x = 5
 monster_y = 5
 total_enemies = 9
 enemies = []
-
-pygame.display.set_caption('Арканоид')
 
 ball = Picture('ball.png',160,200,50,50)
 platform = Picture('platform.png',platform_x, platform_y, 100, 30)
@@ -97,10 +109,29 @@ while not game_over:
                 Move_right = False
 
     if Move_left:
-        platform.rect.x -= 6
+        platform.rect.x -= PlatformSpeed
     elif Move_right:
-        platform.rect.x += 6
+        platform.rect.x += PlatformSpeed
 
+    if difficult == 1:
+        DifficultText = Label(5,550,30,30,back)
+        DifficultText.set_text('Level:Easy', 30,(0,255,0))
+        DifficultText.draw(10,10)
+
+    if difficult == 2:
+        DifficultText = Label(5,550,30,30,back)
+        DifficultText.set_text('Level:Normal', 30,(255,255,0))
+        DifficultText.draw(0,0)
+
+    if difficult == 3:
+        DifficultText = Label(5,550,30,30,back)
+        DifficultText.set_text('Level:Hard', 30,(255,0,0))
+        DifficultText.draw(10,10)
+
+    if difficult == 4:
+        DifficultText = Label(5,550,30,30,back)
+        DifficultText.set_text('Level:Insane', 30,(220,0,220))
+        DifficultText.draw(10,10)
 #шар
     ball.rect.x += speed_x
     ball.rect.y += speed_y
@@ -132,4 +163,4 @@ while not game_over:
         game_over = True
 
     pygame.display.update()
-    clock.tick(40)
+    clock.tick(50)
